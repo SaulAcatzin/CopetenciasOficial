@@ -1,7 +1,7 @@
 ------------------------------------------------------------
 -- Universidad Tecnológica de San Juan del Río
 -- Saúl Acatzin López Roque
--- 17/Marzo/2015
+-- 24/Marzo/2015
 ------------------------------------------------------------
 --Juego "COPETENCIAS"
 
