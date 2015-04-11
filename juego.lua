@@ -9,7 +9,7 @@ local storyboard = require ("storyboard")
 local scene = storyboard.newScene()
 local sonido = audio.loadSound("sonidoinicio.mp3")
 
---Se insertan las diferentes imageenes(objetos).
+--Se insertan las diferentes imagenes(objetos).
 function scene:createScene(event)
 	local screenGroup = self.view
 	
