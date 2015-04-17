@@ -4,10 +4,10 @@
 -- 31/Marzo/2015
 ------------------------------------------------------------
 --Juego "COPETENCIAS"
-
+local sprite = require "sprite"
 local fisica = require "physics"
 fisica.start()
-
+local baseline = 280
 local storyboard = require ("storyboard")
 local scene = storyboard.newScene()
 local sonidofondo = audio.loadSound ("sonidofondo.mp3")
@@ -21,13 +21,13 @@ function scene:createScene(event)
     fondocarrera1 = display.newImageRect("fondocarrera.png" , 850, 477)
     fondocarrera1.x = 400
     fondocarrera1.y = 240
-    fondocarrera1.speed = 1
+    fondocarrera1.speed = 2
     screenGroup:insert(fondocarrera1)
 
     fondocarrera2 = display.newImageRect("fondocarrera.png" , 850, 477)
     fondocarrera2.x = 1250
     fondocarrera2.y = 240
-    fondocarrera2.speed = 1
+    fondocarrera2.speed = 2
     screenGroup:insert(fondocarrera2)
 	
 	
@@ -61,11 +61,23 @@ function scene:createScene(event)
 	fisica.addBody(obstaculo3, "static")
 	screenGroup:insert(obstaculo3)
 	
-	
-    
 end
+-----------------------------------------------------------------------------
+
+local sheet2 = sprite.newSpriteSheet( "greenman.png", 128, 128 )
+
+local spriteSet2 = sprite.newSpriteSet(sheet2, 1, 15)
+sprite.add( spriteSet2, "man", 1, 15, 500, 0 ) 
+
+local instance2 = sprite.newSprite( spriteSet2 )
+instance2.x = 1 * display.contentWidth / 4 + 10
+instance2.y = baseline - 10
+
+instance2:prepare("man")
+instance2:play()
 ---------------------------------------
 --Funcion para mover ciudad
+
 function moverCiudad(self,event)
 	if self.x < -400 then
 		self.x = 800

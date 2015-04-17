@@ -27,20 +27,20 @@ function scene:createScene(event)
 	botonjugari.x = 570
 	botonjugari.y = 250
 	screenGroup:insert(botonjugari)
-	
-	botonopcionesi = display.newImageRect( "btnopcionesi.png", 600, 500  )
-	botonopcionesi.x = 300
-	botonopcionesi.y = 370
-	screenGroup:insert(botonopcionesi)
-	
-	botonsaliri = display.newImageRect( "btnsaliri.png", 700, 575 )
-	botonsaliri.x = 700
-	botonsaliri.y = 180
-	screenGroup:insert(botonsaliri)
-	
-	audio.play(sonido)
-end
 
+--	botonopcionesi = display.newImageRect( "btnopcionesi.png", 600, 500  )
+--	botonopcionesi.x = 300
+--	botonopcionesi.y = 370
+--	screenGroup:insert(botonopcionesi)
+	
+--	botonsaliri = display.newImageRect( "btnsaliri.png", 700, 575 )
+--	botonsaliri.x = 700
+--	botonsaliri.y = 180
+--	screenGroup:insert(botonsaliri)
+	
+	--audio.play(sonido)
+end
+		
 function start(event)
 	if event.phase == "began" then
 	 storyboard.gotoScene("game", "fade", 400)
