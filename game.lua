@@ -12,6 +12,11 @@ local storyboard = require ("storyboard")
 local scene = storyboard.newScene()
 local sonidofondo = audio.loadSound ("sonidofondo.mp3")
 local sfin = audio.loadSound ("gameover.mp3")
+local backgroundSpeed = 4
+fisica.setDrawMode("hybrid")
+
+
+
 
 --Se crea el evento
 function scene:createScene(event)
@@ -21,13 +26,13 @@ function scene:createScene(event)
     fondocarrera1 = display.newImageRect("fondocarrera.png" , 850, 477)
     fondocarrera1.x = 400
     fondocarrera1.y = 240
-    fondocarrera1.speed = 2
+    fondocarrera1.speed = backgroundSpeed
     screenGroup:insert(fondocarrera1)
 
     fondocarrera2 = display.newImageRect("fondocarrera.png" , 850, 477)
     fondocarrera2.x = 1250
     fondocarrera2.y = 240
-    fondocarrera2.speed = 2
+    fondocarrera2.speed = backgroundSpeed
     screenGroup:insert(fondocarrera2)
 	
 	
@@ -51,9 +56,14 @@ function scene:createScene(event)
 	
 	obstaculo1 = display.newImageRect( "obstaculo1.png", 400, 300  )
 	obstaculo1.x = 250
-	obstaculo1.y = 420
-	fisica.addBody(obstaculo1, "static")
+	obstaculo1.y = 450
+	obstaculo1.speed = backgroundSpeed
+	fisica.addBody(obstaculo1, {radius=70})
 	screenGroup:insert(obstaculo1)
+	
+	suelo = display.newRect(display.contentWidth/2, display.contentHeight, display.contentWidth , 1)
+	fisica.addBody(suelo, "static")
+	screenGroup:insert(suelo)
 	
 	obstaculo3 = display.newImageRect( "obstaculo3.png", 400, 300  )
     obstaculo3.x = 700
@@ -73,8 +83,9 @@ sprite.add( spriteSet2, "man", 1, 15, 500, 0 )
 
 local instance2 = sprite.newSprite( spriteSet2 )
 instance2.x = 1 * display.contentWidth / 4 + 10
-instance2.y = baseline - 10
-instance2.anchorX = 0.01
+instance2.y = baseline + 120
+instance2.x = baseline - 250
+
 
 instance2:prepare("man")
 instance2:play()
