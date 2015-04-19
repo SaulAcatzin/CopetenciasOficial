@@ -10,6 +10,21 @@ local scene = storyboard.newScene()
 local sonido = audio.loadSound("sonidoinicio.mp3")
 
 --Se insertan las diferentes imagenes(objetos).
+
+function titleTransitionDown()
+	downTransition = transition.to(titleGroup,{time=400, y=titleGroup.y+20,onComplete=titleTransitionUp})
+	
+end
+
+function titleTransitionUp()
+	upTransition = transition.to(titleGroup,{time=400, y=titleGroup.y-20, onComplete=titleTransitionDown})
+	
+end
+
+function titleAnimation()
+	titleTransitionDown()
+end
+
 function scene:createScene(event)
 	local screenGroup = self.view
 	
@@ -18,16 +33,13 @@ function scene:createScene(event)
 	fondoi.y = 240
 	screenGroup:insert(fondoi)
 	
-	enriquei = display.newImageRect( "epninicio.png", 650, 450 )
-	enriquei.x = 695
-	enriquei.y = 250
-	screenGroup:insert(enriquei)
+	title = display.newImageRect( "epninicio.png", 650, 450 )
+	title.anchorX = 0.5
+	title.anchorY = 0.5
+	title.x = display.contentCenterX - 80
+	title.y = display.contentCenterY
+	screenGroup:insert(title)
 	
-	botonjugari = display.newImageRect( "btnjugari.png", 500, 475 )
-	botonjugari.x = 570
-	botonjugari.y = 250
-	screenGroup:insert(botonjugari)
-
 --	botonopcionesi = display.newImageRect( "btnopcionesi.png", 600, 500  )
 --	botonopcionesi.x = 300
 --	botonopcionesi.y = 370
@@ -37,22 +49,39 @@ function scene:createScene(event)
 --	botonsaliri.x = 700
 --	botonsaliri.y = 180
 --	screenGroup:insert(botonsaliri)
-	
-	--audio.play(sonido)
+
+	start = display.newImageRect( "btnjugari.png", 500, 475 )
+	start.x = 570
+	start.y = 250
+	screenGroup:insert(start)
+
+	titleGroup = display.newGroup()
+	titleGroup.anchorChildren = true
+	titleGroup.anchorX = 0.05
+	titleGroup.anchorY = 0.5
+	titleGroup.x = display.contentCenterX 
+	titleGroup.y = display.contentCenterY - 10
+	titleGroup:insert(title)
+	screenGroup:insert(titleGroup)
+	titleAnimation()
+
+	audio.play(sonido)
 end
 		
-function start(event)
+function startgame(event)
 	if event.phase == "began" then
 	 storyboard.gotoScene("game", "fade", 400)
 	end
 end
 
 function scene:enterScene(event)
-	fondoi:addEventListener("touch", start)
+	fondoi:addEventListener("touch", startgame)
 end
 
 function scene:exitScene(event)
-	fondoi:removeEventListener("touch", start)
+	fondoi:removeEventListener("touch", startgame)
+	transition.cancel(downTransition)
+	transition.cancel(upTransition)
 end
 
 function scene:destroyScene(event)

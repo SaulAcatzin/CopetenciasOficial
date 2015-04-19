@@ -23,7 +23,7 @@ function scene:createScene(event)
 	enriquei.y = 250
 	screenGroup:insert(enriquei)
 	
-	--audio.play(sonido)
+	audio.play(sonido)
 end
 
 function start(event)

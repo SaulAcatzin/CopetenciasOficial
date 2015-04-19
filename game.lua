@@ -61,6 +61,8 @@ function scene:createScene(event)
 	fisica.addBody(obstaculo3, "static")
 	screenGroup:insert(obstaculo3)
 	
+	audio.play(sonidofondo)
+	
 end
 -----------------------------------------------------------------------------
 
@@ -72,10 +74,11 @@ sprite.add( spriteSet2, "man", 1, 15, 500, 0 )
 local instance2 = sprite.newSprite( spriteSet2 )
 instance2.x = 1 * display.contentWidth / 4 + 10
 instance2.y = baseline - 10
+instance2.anchorX = 0.01
 
 instance2:prepare("man")
 instance2:play()
----------------------------------------
+------------------------------------------------------------------------------
 --Funcion para mover ciudad
 
 function moverCiudad(self,event)
