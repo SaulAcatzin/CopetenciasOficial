@@ -65,7 +65,7 @@ function scene:createScene(event)
 	screenGroup:insert(titleGroup)
 	titleAnimation()
 	
-	audio.play(sonido)
+	--audio.play(sonido)
 end
 		
 function startgame(event)

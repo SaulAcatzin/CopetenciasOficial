@@ -15,9 +15,6 @@ local sfin = audio.loadSound ("gameover.mp3")
 local backgroundSpeed = 4
 fisica.setDrawMode("hybrid")
 
-
-
-
 --Se crea el evento
 function scene:createScene(event)
 	--Se insertan las imagenes a la pantalla con sus respectivos movimientos
@@ -56,18 +53,6 @@ function scene:createScene(event)
 	fisica.addBody(puntaje2, "static")
 	screenGroup:insert(puntaje2)
 	
-	--pausa = display.newImageRect( "pausa.png", 400, 300 )
-	--pausa.x = 1
-	--pausa.y = 38
-	--fisica.addBody(pausa, "static")
-	--screenGroup:insert(pausa)
-	
-	--obstaculo1 = display.newImageRect( "obstaculo1.png", 400, 300  )
-	--obstaculo1.x = 250
-	--obstaculo1.y = 450
-	--fisica.addBody(obstaculo1, {radius=70})
-	--screenGroup:insert(obstaculo1)
-	
 	suelo = display.newRect(display.contentWidth/2, display.contentHeight, display.contentWidth , 1)
 	fisica.addBody(suelo, "static")
 	screenGroup:insert(suelo)
@@ -78,18 +63,6 @@ function scene:createScene(event)
 --	fisica.addBody(obstaculo3, "static")
 --	screenGroup:insert(obstaculo3)
 
-	p_options = 
-	{
-		-- Required params
-		width = 80,
-		height = 42,
-		numFrames = 2,
-		-- content scaling
-		sheetContentWidth = 160,
-		sheetContentHeight = 42,
-	}
-
-	
 	sheet2 = sprite.newSpriteSheet( "greenman.png", 128, 128 )
 	spriteSet2 = sprite.newSpriteSet(sheet2, 1, 15)
 	sprite.add( spriteSet2, "man", 1, 15, 500, 0 ) 
@@ -102,7 +75,7 @@ function scene:createScene(event)
 	instance2:applyForce(0, -300, instance2.x, instance2.y)
 	instance2:play()
 	
-	audio.play(sonidofondo)
+	--audio.play(sonidofondo)
 	
 end
 ---------------------------------------------------------------------------------

@@ -13,7 +13,7 @@ local sonido = audio.loadSound("sonidoinicio.mp3")
 function scene:createScene(event)
 	local screenGroup = self.view
 	
-	fondocarrera = display.newImageRect( "carrerafondo.png", 850, 477 )
+	fondocarrera = display.newImageRect( "fondocarrera.png", 850, 477 )
 	fondocarrera.x = 300
 	fondocarrera.y = 240
 	screenGroup:insert(fondocarrera)
@@ -31,7 +31,7 @@ function scene:createScene(event)
 	textoover = display.newImageRect( "txtepn.png", 500, 375 )
 	textoover.x = 600
 	textoover.y = 100
-	audio.play(textoover)
+	--audio.play(textoover)
 end
 
 function start(event)
