@@ -22,6 +22,7 @@ fisica.setDrawMode("hybrid")
 function scene:createScene(event)
 	--Se insertan las imagenes a la pantalla con sus respectivos movimientos
 	local screenGroup = self.view
+	
 	audio.play(sonidofondo)
     fondocarrera1 = display.newImageRect("fondocarrera.png" , 850, 477)
     fondocarrera1.x = 400
@@ -35,6 +36,13 @@ function scene:createScene(event)
     fondocarrera2.speed = backgroundSpeed
     screenGroup:insert(fondocarrera2)
 	
+	elements = display.newGroup()
+	elements.anchorChildren = true
+	elements.anchorX = 0
+	elements.anchorY = 1
+	elements.x = 0
+	elements.y = 0
+	screenGroup:insert(elements)
 	
 	puntaje1 = display.newImageRect( "puntaje1.png", 400, 300 )
 	puntaje1.x = 750
@@ -48,47 +56,122 @@ function scene:createScene(event)
 	fisica.addBody(puntaje2, "static")
 	screenGroup:insert(puntaje2)
 	
-	pausa = display.newImageRect( "pausa.png", 400, 300 )
-	pausa.x = 1
-	pausa.y = 38
-	fisica.addBody(pausa, "static")
-	screenGroup:insert(pausa)
+	--pausa = display.newImageRect( "pausa.png", 400, 300 )
+	--pausa.x = 1
+	--pausa.y = 38
+	--fisica.addBody(pausa, "static")
+	--screenGroup:insert(pausa)
 	
-	obstaculo1 = display.newImageRect( "obstaculo1.png", 400, 300  )
-	obstaculo1.x = 250
-	obstaculo1.y = 450
-	obstaculo1.speed = backgroundSpeed
-	fisica.addBody(obstaculo1, {radius=70})
-	screenGroup:insert(obstaculo1)
+	--obstaculo1 = display.newImageRect( "obstaculo1.png", 400, 300  )
+	--obstaculo1.x = 250
+	--obstaculo1.y = 450
+	--fisica.addBody(obstaculo1, {radius=70})
+	--screenGroup:insert(obstaculo1)
 	
 	suelo = display.newRect(display.contentWidth/2, display.contentHeight, display.contentWidth , 1)
 	fisica.addBody(suelo, "static")
 	screenGroup:insert(suelo)
 	
-	obstaculo3 = display.newImageRect( "obstaculo3.png", 400, 300  )
-    obstaculo3.x = 700
-    obstaculo3.y = 420
-	fisica.addBody(obstaculo3, "static")
-	screenGroup:insert(obstaculo3)
+--	obstaculo3 = display.newImageRect( "obstaculo3.png", 400, 300  )
+--    obstaculo3.x = 700
+--    obstaculo3.y = 420
+--	fisica.addBody(obstaculo3, "static")
+--	screenGroup:insert(obstaculo3)
+
+	p_options = 
+	{
+		-- Required params
+		width = 80,
+		height = 42,
+		numFrames = 2,
+		-- content scaling
+		sheetContentWidth = 160,
+		sheetContentHeight = 42,
+	}
+
+	
+	sheet2 = sprite.newSpriteSheet( "greenman.png", 128, 128 )
+	spriteSet2 = sprite.newSpriteSet(sheet2, 1, 15)
+	sprite.add( spriteSet2, "man", 1, 15, 500, 0 ) 
+	instance2 = sprite.newSprite( spriteSet2 )
+	instance2.x = 1 * display.contentWidth / 4 + 10
+	instance2.y = baseline + 120
+	instance2.x = baseline - 250
+	instance2:prepare("man")
+	fisica.addBody(instance2, "static", {density=.1, bounce=0.1, friction=1})
+	instance2:applyForce(0, -300, instance2.x, instance2.y)
+	instance2:play()
 	
 	audio.play(sonidofondo)
 	
 end
+---------------------------------------------------------------------------------
+function onCollision( event )
+	if ( event.phase == "began" ) then
+		storyboard.gotoScene( "gameOver" )	
+	end
+end
 -----------------------------------------------------------------------------
+local gameStarted = false
 
-local sheet2 = sprite.newSpriteSheet( "greenman.png", 128, 128 )
+function correr(event) 
+	if gameStarted == false then
+		instance2.bodyType="dynamic"
+		addObstaculoTimer=timer.performWithDelay(7000, addobstaculos, -1)
+		-- Velocidad a la que se insertan
+		moveObstaculoTimer=timer.performWithDelay(100, moveObstaculos, -1)
+		gameStarted = true
+		
+	else
+		instance2:applyForce(0,-600,instance2.x,instance2.y)
+	end
+end
+-----------------------------------------------------------------------------
+-----------------------------------------------------------------------------
+function moveObstaculos()
+--Velocidad a la que se mueve
+print("mover")
+		for a = elements.numChildren,1,-1  do
+			if(elements[a].x < display.contentCenterX - 170) then
+				if elements[a].scoreAdded == false then
 
-local spriteSet2 = sprite.newSpriteSet(sheet2, 1, 15)
-sprite.add( spriteSet2, "man", 1, 15, 500, 0 ) 
-
-local instance2 = sprite.newSprite( spriteSet2 )
-instance2.x = 1 * display.contentWidth / 4 + 10
-instance2.y = baseline + 120
-instance2.x = baseline - 250
-
-
-instance2:prepare("man")
-instance2:play()
+					--mydata.score = mydata.score + 1
+					--scoreText.text = mydata.score
+					elements[a].scoreAdded = true
+				end
+			end
+			if(elements[a].x > -100) then
+				elements[a].x = elements[a].x - 5
+			else 
+				elements:remove(elements[a])
+			end	
+		end
+end
+-----------------------------------------------------------------------------
+function addobstaculos()
+	print ("obstaculo")
+--	height = math.random(display.contentCenterY - 200, display.contentCenterY + 200)
+	
+	obstaculo1 = display.newImageRect( "obstaculo1.png", 400, 300 )
+	obstaculo1.anchorX = .5
+	obstaculo1.anchorY = 1
+	obstaculo1.x = display.contentWidth 
+	obstaculo1.y = display.contentHeight +79
+	--obstaculo1.scoreAdded = false
+	--physics.addBody(obstaculo1, "static", {radius=70})
+	elements:insert(obstaculo1)
+	
+end
+-------------------------------------------------------------------------------
+--local sheet2 = sprite.newSpriteSheet( "greenman.png", 128, 128 )
+--local spriteSet2 = sprite.newSpriteSet(sheet2, 1, 15)
+--sprite.add( spriteSet2, "man", 1, 15, 500, 0 ) 
+--local instance2 = sprite.newSprite( spriteSet2 )
+--instance2.x = 1 * display.contentWidth / 4 + 10
+--instance2.y = baseline + 120
+--instance2.x = baseline - 250
+--instance2:prepare("man")
+--instance2:play()
 ------------------------------------------------------------------------------
 --Funcion para mover ciudad
 
@@ -112,27 +195,35 @@ end
 
 --Todos los eventos que tenemos en pantalla
 function scene:enterScene(event)
-
-	storyboard.purgeScene("start")
-	storyboard.purgeScene("restart")
-
-	--Runtime:addEventListener("touch", touchScreen)
-
+	print ("prueba")
+	--storyboard.purgeScene("start")
+	--storyboard.purgeScene("restart")
+	
+	--fondocarrera1.enterFrame = correr
+	--Runtime:addEventListener("enterFrame", fondocarrera1)
+	Runtime:addEventListener("touch", correr)
+	
 	fondocarrera1.enterFrame = moverCiudad
     Runtime:addEventListener("enterFrame", fondocarrera1)
 
     fondocarrera2.enterFrame = moverCiudad
     Runtime:addEventListener("enterFrame", fondocarrera2)
+	
+	Runtime:addEventListener("collision", onCollision)
 
 
 end
 
 -- Eliminar todos los eventos
 function scene:exitScene(event)
-
+	
+	Runtime:removeEventListener("touch", correr)
 	Runtime:removeEventListener("touch", touchScreen)
 	Runtime:removeEventListener("enterFrame", fondocarrera1)
 	Runtime:removeEventListener("enterFrame", fondocarrera2)
+	Runtime:removeEventListener("collision", onCollision)
+	timer.cancel(addObstaculoTimer)
+	timer.cancel(moveObstaculoTimer)
 
 end
 
