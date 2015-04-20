@@ -81,9 +81,14 @@ function scene:createScene(event)
 end
 ---------------------------------------------------------------------------------
 function onCollision( event )
-	if ( event.phase == "began" ) then
-		storyboard.gotoScene( "gameOver" )	
+print("on collision...")
+	if (event.object1 ~= suelo and event.phase == "began") then
+		print("Game over")
+		storyboard.gotoScene ("gameOver")
 	end
+	--if ( event.phase == "began" ) then
+		--storyboard.gotoScene( "gameOver" )	
+	--end
 end
 -----------------------------------------------------------------------------
 local gameStarted = false
@@ -106,7 +111,6 @@ end
 -----------------------------------------------------------------------------
 function moveObstaculos()
 --Velocidad a la que se mueve
-print("mover")
 		for a = elements.numChildren,1,-1  do
 			if(elements[a].x < display.contentCenterX - 170) then
 				if elements[a].scoreAdded == false then
@@ -134,9 +138,12 @@ local obstacleNames= {
  }
 
 function addobstaculos()
-	index = math.random(0,5)
-	
+	index = math.random(1,6)
+	print(index)
 	obstaculo1 = display.newImageRect( obstacleNames[index], 400, 300 )
+	if (obstaculo1 == nill) then
+		return
+	end
 	obstaculo1.anchorX = .5
 	obstaculo1.anchorY = 1
 	fisica.addBody(obstaculo1, "static", {density=1, bounce=0.1, friction=.2, radius=87})
