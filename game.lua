@@ -74,6 +74,7 @@ function scene:createScene(event)
 	fisica.addBody(instance2, "static", {density=.1, bounce=0.1, friction=1})
 	instance2:applyForce(0, -300, instance2.x, instance2.y)
 	instance2:play()
+	screenGroup:insert(instance2)
 	
 	--audio.play(sonidofondo)
 	
@@ -88,16 +89,18 @@ end
 local gameStarted = false
 
 function correr(event) 
-	if gameStarted == false then
-		instance2.bodyType="dynamic"
-		addObstaculoTimer=timer.performWithDelay(7000, addobstaculos, -1)
-		-- Velocidad a la que se insertan
-		moveObstaculoTimer=timer.performWithDelay(100, moveObstaculos, -1)
-		gameStarted = true
+	instance2:applyForce(0,-600,instance2.x,instance2.y)
+	-- if gameStarted == false then
+		-- instance2.bodyType="dynamic"
+		-- addObstaculoTimer=timer.performWithDelay(7000, addobstaculos, -1)
+		----Velocidad a la que se insertan
+		-- moveObstaculoTimer=timer.performWithDelay(100, moveObstaculos, -1)
+		-- gameStarted = true
 		
-	else
-		instance2:applyForce(0,-600,instance2.x,instance2.y)
-	end
+	-- else
+		
+	-- end
+
 end
 -----------------------------------------------------------------------------
 -----------------------------------------------------------------------------
@@ -121,30 +124,31 @@ print("mover")
 		end
 end
 -----------------------------------------------------------------------------
+local obstacleNames= {
+ "carmen.png",
+ "brozo.png",
+ "gasolina.png",
+ "gaviota.png",
+ "pau.png",
+ "reportero.png"
+ }
+
 function addobstaculos()
-	print ("obstaculo")
---	height = math.random(display.contentCenterY - 200, display.contentCenterY + 200)
+	index = math.random(0,5)
 	
-	obstaculo1 = display.newImageRect( "obstaculo1.png", 400, 300 )
+	obstaculo1 = display.newImageRect( obstacleNames[index], 400, 300 )
 	obstaculo1.anchorX = .5
 	obstaculo1.anchorY = 1
+	fisica.addBody(obstaculo1, "static", {density=1, bounce=0.1, friction=.2, radius=87})
 	obstaculo1.x = display.contentWidth 
 	obstaculo1.y = display.contentHeight +79
-	--obstaculo1.scoreAdded = false
-	--physics.addBody(obstaculo1, "static", {radius=70})
 	elements:insert(obstaculo1)
 	
 end
 -------------------------------------------------------------------------------
---local sheet2 = sprite.newSpriteSheet( "greenman.png", 128, 128 )
---local spriteSet2 = sprite.newSpriteSet(sheet2, 1, 15)
---sprite.add( spriteSet2, "man", 1, 15, 500, 0 ) 
---local instance2 = sprite.newSprite( spriteSet2 )
---instance2.x = 1 * display.contentWidth / 4 + 10
---instance2.y = baseline + 120
---instance2.x = baseline - 250
---instance2:prepare("man")
---instance2:play()
+ 
+
+
 ------------------------------------------------------------------------------
 --Funcion para mover ciudad
 
@@ -174,6 +178,11 @@ function scene:enterScene(event)
 	
 	--fondocarrera1.enterFrame = correr
 	--Runtime:addEventListener("enterFrame", fondocarrera1)
+		instance2.bodyType="dynamic"
+		addObstaculoTimer=timer.performWithDelay(7000, addobstaculos, -1)
+		--Velocidad a la que se insertan
+		moveObstaculoTimer=timer.performWithDelay(100, moveObstaculos, -1)
+	
 	Runtime:addEventListener("touch", correr)
 	
 	fondocarrera1.enterFrame = moverCiudad
