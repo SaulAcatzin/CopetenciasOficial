@@ -73,7 +73,9 @@ function scene:createScene(event)
 	screenGroup:insert(instance2)
 	
 	scoreText = display.newText(mydata.score,display.contentCenterX,
-	150, "pixelmix", 58)
+	130, "pixelmix", 48)
+	scoreText.x = 755
+	scoreText.y = 45
 	scoreText:setFillColor(0,0,0)
 	scoreText.alpha = 0
 	screenGroup:insert(scoreText)
@@ -86,31 +88,20 @@ function onCollision( event )
 print("on collision...")
 	if (event.object1 ~= suelo and event.phase == "began") then
 		print("Game over")
-		storyboard.gotoScene ("gameOver")
+		storyboard.gotoScene ("gameover")
 	end
-	--if ( event.phase == "began" ) then
-		--storyboard.gotoScene( "gameOver" )	
-	--end
 end
 -----------------------------------------------------------------------------
 local gameStarted = false
-
 function correr(event) 
-if event.phase == "began" then
 	instance2:applyForce(0,-300,instance2.x,instance2.y)
 	 if gameStarted == false then
 		 instance2.bodyType="dynamic"
 		 scoreText.alpha = 1
 		 gameStarted = true
-		
 	 else
-		
 	 end
-	 
-	 end
-
 end
------------------------------------------------------------------------------
 -----------------------------------------------------------------------------
 function moveObstaculos()
 --Velocidad a la que se mueve
@@ -141,7 +132,6 @@ local obstacleNames= {
 
 function addobstaculos()
 	index = math.random(1,6)
-	print(index)
 	obstaculo1 = display.newImageRect( obstacleNames[index], 400, 300 )
 	if (obstaculo1 == nill) then
 		return
@@ -151,13 +141,10 @@ function addobstaculos()
 	fisica.addBody(obstaculo1, "static", {density=1, bounce=0.1, friction=.2, radius=87})
 	obstaculo1.x = display.contentWidth 
 	obstaculo1.y = display.contentHeight +79
+	obstaculo1.scoreAdded = false
 	elements:insert(obstaculo1)
 	
 end
--------------------------------------------------------------------------------
- 
-
-
 ------------------------------------------------------------------------------
 --Funcion para mover ciudad
 
@@ -171,7 +158,7 @@ end
 
 --evento que recibe el toque de la pantalla
 
-----------------------------------------
+----------------------------------------_______________________________________
 
 --Todos los eventos que tenemos en pantalla
 function scene:enterScene(event)
@@ -180,25 +167,17 @@ function scene:enterScene(event)
 		addObstaculoTimer=timer.performWithDelay(7000, addobstaculos, -1)
 		--Velocidad a la que se insertan
 		moveObstaculoTimer=timer.performWithDelay(60, moveObstaculos, -1)
-	
-	Runtime:addEventListener("touch", correr)
-	
-	fondocarrera1.enterFrame = moverCiudad
-    Runtime:addEventListener("enterFrame", fondocarrera1)
-
-    fondocarrera2.enterFrame = moverCiudad
-    Runtime:addEventListener("enterFrame", fondocarrera2)
-	
-	Runtime:addEventListener("collision", onCollision)
-
-
-end
-
+	    Runtime:addEventListener("touch", correr)	
+		fondocarrera1.enterFrame = moverCiudad
+		Runtime:addEventListener("enterFrame", fondocarrera1)
+		fondocarrera2.enterFrame = moverCiudad
+		Runtime:addEventListener("enterFrame", fondocarrera2)
+		Runtime:addEventListener("collision", onCollision)
+	end
 -- Eliminar todos los eventos
 function scene:exitScene(event)
 	
 	Runtime:removeEventListener("touch", correr)
-	Runtime:removeEventListener("touch", touchScreen)
 	Runtime:removeEventListener("enterFrame", fondocarrera1)
 	Runtime:removeEventListener("enterFrame", fondocarrera2)
 	Runtime:removeEventListener("collision", onCollision)

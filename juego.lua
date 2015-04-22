@@ -60,7 +60,7 @@ end
 		
 function startgame(event)
 	if event.phase == "began" then
-	 storyboard.gotoScene("game", "fade", 400)
+	 storyboard.gotoScene("game")
 	end
 end
 
