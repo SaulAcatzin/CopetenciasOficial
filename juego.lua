@@ -1,7 +1,7 @@
 ------------------------------------------------------------
 -- Universidad Tecnológica de San Juan del Río
 -- Saúl Acatzin López Roque
--- 31/Marzo/2015
+-- 20/Abril/2015
 ------------------------------------------------------------
 --Juego "COPETENCIAS"
 
@@ -39,16 +39,6 @@ function scene:createScene(event)
 	title.x = display.contentCenterX - 80
 	title.y = display.contentCenterY
 	screenGroup:insert(title)
-	
---	botonopcionesi = display.newImageRect( "btnopcionesi.png", 600, 500  )
---	botonopcionesi.x = 300
---	botonopcionesi.y = 370
---	screenGroup:insert(botonopcionesi)
-	
---	botonsaliri = display.newImageRect( "btnsaliri.png", 700, 575 )
---	botonsaliri.x = 700
---	botonsaliri.y = 180
---	screenGroup:insert(botonsaliri)
 
 	start = display.newImageRect( "btnjugari.png", 500, 475 )
 	start.x = 570

@@ -1,7 +1,7 @@
 ------------------------------------------------------------
 -- Universidad Tecnológica de San Juan del Río
 -- Saúl Acatzin López Roque
--- 31/Marzo/2015
+-- 20/Abril/2015
 ------------------------------------------------------------
 --Juego "COPETENCIAS"
 local sprite = require "sprite"
@@ -13,7 +13,9 @@ local scene = storyboard.newScene()
 local sonidofondo = audio.loadSound ("sonidofondo.mp3")
 local sfin = audio.loadSound ("gameover.mp3")
 local backgroundSpeed = 4
-fisica.setDrawMode("hybrid")
+local mydata = require( "mydata" )
+mydata.score = 0
+--fisica.setDrawMode("hybrid")
 
 --Se crea el evento
 function scene:createScene(event)
@@ -57,12 +59,6 @@ function scene:createScene(event)
 	fisica.addBody(suelo, "static")
 	screenGroup:insert(suelo)
 	
---	obstaculo3 = display.newImageRect( "obstaculo3.png", 400, 300  )
---    obstaculo3.x = 700
---    obstaculo3.y = 420
---	fisica.addBody(obstaculo3, "static")
---	screenGroup:insert(obstaculo3)
-
 	sheet2 = sprite.newSpriteSheet( "greenman.png", 128, 128 )
 	spriteSet2 = sprite.newSpriteSet(sheet2, 1, 15)
 	sprite.add( spriteSet2, "man", 1, 15, 500, 0 ) 
@@ -76,7 +72,13 @@ function scene:createScene(event)
 	instance2:play()
 	screenGroup:insert(instance2)
 	
-	--audio.play(sonidofondo)
+	scoreText = display.newText(mydata.score,display.contentCenterX,
+	150, "pixelmix", 58)
+	scoreText:setFillColor(0,0,0)
+	scoreText.alpha = 0
+	screenGroup:insert(scoreText)
+	
+	audio.play(sonidofondo)
 	
 end
 ---------------------------------------------------------------------------------
@@ -94,17 +96,18 @@ end
 local gameStarted = false
 
 function correr(event) 
-	instance2:applyForce(0,-600,instance2.x,instance2.y)
-	-- if gameStarted == false then
-		-- instance2.bodyType="dynamic"
-		-- addObstaculoTimer=timer.performWithDelay(7000, addobstaculos, -1)
-		----Velocidad a la que se insertan
-		-- moveObstaculoTimer=timer.performWithDelay(100, moveObstaculos, -1)
-		-- gameStarted = true
+if event.phase == "began" then
+	instance2:applyForce(0,-300,instance2.x,instance2.y)
+	 if gameStarted == false then
+		 instance2.bodyType="dynamic"
+		 scoreText.alpha = 1
+		 gameStarted = true
 		
-	-- else
+	 else
 		
-	-- end
+	 end
+	 
+	 end
 
 end
 -----------------------------------------------------------------------------
@@ -114,9 +117,8 @@ function moveObstaculos()
 		for a = elements.numChildren,1,-1  do
 			if(elements[a].x < display.contentCenterX - 170) then
 				if elements[a].scoreAdded == false then
-
-					--mydata.score = mydata.score + 1
-					--scoreText.text = mydata.score
+					mydata.score = mydata.score + 1
+					scoreText.text = mydata.score
 					elements[a].scoreAdded = true
 				end
 			end
@@ -132,7 +134,7 @@ local obstacleNames= {
  "carmen.png",
  "brozo.png",
  "gasolina.png",
- "gaviota.png",
+ "paulina.png",
  "pau.png",
  "reportero.png"
  }
@@ -169,26 +171,15 @@ end
 
 --evento que recibe el toque de la pantalla
 
-
-function gameOver()
-   storyboard.gotoScene("gameover", "fade", 400)
-end
-
 ----------------------------------------
-
 
 --Todos los eventos que tenemos en pantalla
 function scene:enterScene(event)
 	print ("prueba")
-	--storyboard.purgeScene("start")
-	--storyboard.purgeScene("restart")
-	
-	--fondocarrera1.enterFrame = correr
-	--Runtime:addEventListener("enterFrame", fondocarrera1)
 		instance2.bodyType="dynamic"
 		addObstaculoTimer=timer.performWithDelay(7000, addobstaculos, -1)
 		--Velocidad a la que se insertan
-		moveObstaculoTimer=timer.performWithDelay(100, moveObstaculos, -1)
+		moveObstaculoTimer=timer.performWithDelay(60, moveObstaculos, -1)
 	
 	Runtime:addEventListener("touch", correr)
 	
